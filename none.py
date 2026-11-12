@@ -3,6 +3,7 @@ s, t = input().split()
 vertices = []
 R = set()
 
+# Parse input to graph(Adjacency dict)
 for _ in range(n):
     v = input().split()
     vertices.append(v[0])
@@ -13,26 +14,31 @@ G = {n: set() for n in vertices}
 
 for _ in range(m):
     u, direction, v = input().split()
-    if direction == "->":
-        G[u].add(v)
-    else:
-        G[u].add(v)
+    G[u].add(v)
+    if direction == "--":
         G[v].add(u)
 
 
-def none(G, start, target, R) -> bool:
-    frontier = {start}
+def bfs(G: dict, start: str, target: str, R: set) -> int:
+    next_frontier = [start]
     visited = set()
+    steps = -1
 
-    while frontier:
-        curr = frontier.pop()
-        if curr == target:
-            return True
-        if curr in R or curr in visited:
-            continue
-        visited.add(curr)
-        frontier.update(G[curr])
-    return False
+    while next_frontier:
+        frontier = next_frontier
+        next_frontier = []
+        steps += 1
+        for curr in frontier:
+            if curr == target:
+                return steps
+            if curr in visited:
+                continue
+            if (curr in R) and (curr != start):
+                continue
+
+            visited.add(curr)
+            next_frontier.extend(G[curr])
+    return -1
 
 
-print(none(G, s, t, R))
+print(bfs(G, s, t, R))
