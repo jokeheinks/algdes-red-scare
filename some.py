@@ -1,56 +1,40 @@
+"""Some: is there an s,t-path through at least one red vertex?
+
+- Undirected graphs (exact, linear time): every simple s,t-path passes
+  through exactly the 2-connected blocks on the s,t-path of the block-cut
+  tree. Inside a 2-connected block, for any entry x, exit y != x and any
+  third vertex z there is an x,y-path through z (Menger). So the answer is
+  True iff some red vertex lies in one of those blocks.
+- Directed acyclic graphs (exact): every walk is a path, so the answer is
+  True iff some red r has s ->* r ->* t.
+- Directed graphs with cycles: NP-hard in general. We answer whatever can be
+  decided by reachability and print '?' otherwise.
+"""
 import networkx as nx
 
-n, m, r = [int(x) for x in input().split()]
-s, t = input().split()
-vertices = []
-R = set()
-
-for _ in range(n):
-    v = input().split()
-    vertices.append(v[0])
-    if v[-1] == "*":
-        R.add(v[0])
-
-G = {n: set() for n in vertices}
-G_inv = {n: set() for n in vertices}
-
-for _ in range(m):
-    u, direction, v = input().split()
-    if direction == "->":
-        G[u].add(v)
-        G_inv[v].add(u)
-    else:
-        G[u].add(v)
-        G[v].add(u)
-        G_inv[u].add(v)
-        G_inv[v].add(u)
+from utils.graph import block_path, read_graph
 
 
-def bfs(G, start, R) -> set:
-    frontier = {start}
-    visited = set()
-    reach = set()
-
-    while frontier:
-        curr = frontier.pop()
-        if curr in R:
-            reach.add(curr)
-        if curr in visited:
-            continue
-        visited.add(curr)
-        frontier.update(G[curr])
-
-    return reach
-
-
-def some(G: dict, R: set, start: str, target: str) -> bool:
-    if not R:
+def some(G, R, s, t, directed):
+    if s == t:
+        return s in R
+    if not nx.has_path(G, s, t):
         return False
+    if s in R or t in R:
+        return True
 
-    s_reach = bfs(G, start, R)
-    t_reach = bfs(G_inv, target, R)
+    if not directed:
+        U = G.to_undirected()
+        return any(nodes & R for nodes, _, _, _ in block_path(U, s, t))
 
-    return bool(s_reach | t_reach)
+    via = nx.descendants(G, s) & nx.ancestors(G, t) & R
+    if not via:
+        return False
+    if nx.is_directed_acyclic_graph(G):
+        return True
+    return "?"
 
 
-print(some(G, R, s, t))
+if __name__ == "__main__":
+    G, R, s, t, directed = read_graph()
+    print(some(G, R, s, t, directed))
