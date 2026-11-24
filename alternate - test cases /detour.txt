@@ -1,0 +1,14 @@
+6 6 2
+s t
+s
+a
+b *
+c
+d *
+t
+s -- a
+a -- t
+s -- b
+b -- c
+c -- d
+d -- t
