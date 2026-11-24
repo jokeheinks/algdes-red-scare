@@ -1,0 +1,19 @@
+8 9 1
+s t
+s
+a
+c
+b
+d
+e
+r *
+t
+s -- a
+a -- c
+c -- b
+b -- t
+t -- s
+c -- d
+d -- r
+r -- e
+e -- c

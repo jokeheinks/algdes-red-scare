@@ -1,0 +1,17 @@
+7 8 1
+s t
+s
+a
+b
+c
+d
+r *
+t
+s -- a
+a -- t
+s -- b
+b -- r
+r -- c
+c -- d
+d -- t
+a -- r

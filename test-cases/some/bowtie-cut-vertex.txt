@@ -1,0 +1,13 @@
+5 6 1
+s t
+s
+t
+c
+x
+r *
+s -- t
+s -- c
+t -- c
+c -- x
+c -- r
+x -- r

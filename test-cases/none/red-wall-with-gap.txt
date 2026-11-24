@@ -1,0 +1,23 @@
+9 12 3
+s t
+s
+r1 *
+r2 *
+r3 *
+g
+a
+b
+c
+t
+s -- r1
+s -- r2
+s -- r3
+s -- g
+r1 -- t
+r2 -- t
+r3 -- t
+g -- a
+a -- b
+b -- c
+c -- t
+g -- c
