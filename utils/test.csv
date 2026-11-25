@@ -1,2 +1,112 @@
 data,none,some,few,many,alternate
-"data/G-ex.txt", 3, True, 0,  2, True
+test-cases/alternate/blocked-by-same-colour.txt,-1,True,2,2,False
+test-cases/alternate/directed-only-backwards.txt,-1,False,-1,-1,False
+test-cases/alternate/long-alternating-cycle.txt,-1,True,1,2,True
+test-cases/alternate/st-edge-alternating.txt,1,True,1,1,True
+test-cases/few/all-red.txt,1,True,2,3,False
+test-cases/few/directed.txt,-1,True,1,1,True
+test-cases/few/longer-path-fewer-red.txt,4,True,0,1,True
+test-cases/few/many-hops-vs-one-red.txt,-1,True,1,2,False
+test-cases/few/no-path.txt,-1,False,-1,-1,False
+test-cases/few/s-and-t-red.txt,2,True,2,2,True
+test-cases/few/s-equals-t.txt,0,False,0,0,True
+test-cases/few/unavoidable-red.txt,-1,True,1,1,True
+test-cases/many/all-red-cycle.txt,-1,True,4,4,False
+test-cases/many/cannot-revisit.txt,2,False,0,0,False
+test-cases/many/directed-dag.txt,-1,True,1,2,False
+test-cases/many/long-path-more-red.txt,2,True,0,3,False
+test-cases/many/no-path.txt,-1,False,-1,-1,False
+test-cases/many/path-no-red.txt,2,False,0,0,False
+test-cases/many/red-dead-end.txt,2,False,0,0,False
+test-cases/many/s-equals-t-red.txt,0,True,1,1,True
+test-cases/many/st-edge-both-red.txt,1,True,2,2,False
+test-cases/none/directed-shortcut.txt,3,True,0,1,True
+test-cases/none/directed-wrong-way.txt,-1,False,-1,-1,False
+test-cases/none/disconnected.txt,-1,False,-1,-1,False
+test-cases/none/only-path-through-red.txt,-1,True,1,1,True
+test-cases/none/red-neighbour-of-t.txt,3,True,0,1,False
+test-cases/none/red-wall-with-gap.txt,3,True,0,1,True
+test-cases/none/s-and-t-red.txt,3,True,2,2,False
+test-cases/none/s-equals-t.txt,0,True,1,1,True
+test-cases/none/shortest-path-blocked.txt,4,True,0,1,True
+test-cases/none/st-edge-both-red.txt,1,True,2,2,True
+test-cases/some/bowtie-cut-vertex.txt,1,False,0,0,False
+test-cases/some/brick-overlap-0.txt,1,False,0,0,False
+test-cases/some/directed-cycle-trap.txt,2,False,0,0,False
+test-cases/some/directed-dag.txt,2,True,0,1,True
+test-cases/some/directed-red-only-backwards.txt,2,False,0,0,False
+test-cases/some/no-red.txt,2,False,0,0,False
+test-cases/some/red-on-cycle.txt,3,True,0,1,False
+test-cases/some/red-pendant.txt,2,False,0,0,False
+test-cases/some/red-unreachable.txt,2,False,0,0,False
+test-cases/some/s-equals-t-not-red.txt,0,False,0,0,True
+test-cases/some/s-red.txt,1,True,1,1,True
+test-cases/some/t-red.txt,2,True,1,1,False
+test-cases/some/two-routes-one-good.txt,2,True,0,1,False
+alternate - test cases /all-red.txt,-1,True,3,3,False
+alternate - test cases /cycle-false.txt,-1,True,1,1,False
+alternate - test cases /detour.txt,2,True,0,2,True
+alternate - test cases /directed-forward.txt,-1,True,2,2,True
+alternate - test cases /directed-mixed.txt,2,True,1,1,False
+alternate - test cases /directed-reverse.txt,-1,False,-1,-1,False
+alternate - test cases /disconnected.txt,-1,False,-1,-1,False
+alternate - test cases /fails-at-target-many.txt,-1,True,1,2,False
+alternate - test cases /fails-at-target-red.txt,-1,True,3,3,False
+alternate - test cases /fails-at-target.txt,-1,True,1,1,False
+alternate - test cases /no-red.txt,2,False,0,0,False
+alternate - test cases /s-equals-t-isolated.txt,0,True,1,1,True
+alternate - test cases /s-equals-t.txt,0,False,0,0,True
+alternate - test cases /s-isolated.txt,-1,False,-1,-1,False
+alternate - test cases /s-red.txt,-1,True,2,2,True
+alternate - test cases /s-t-red-adjacent.txt,1,True,2,2,False
+alternate - test cases /s-t-red-path.txt,-1,True,3,3,True
+alternate - test cases /single-edge.txt,1,True,1,1,True
+alternate - test cases /t-red.txt,-1,True,2,2,True
+data/P3.txt,-1,True,1,1,True
+data/G-ex.txt,3,True,0,2,True
+data/increase-n8-1.txt,1,True,1,2,True
+data/increase-n8-2.txt,1,True,1,1,True
+data/increase-n8-3.txt,1,True,0,1,True
+data/wall-n-1.txt,1,True,0,1,False
+data/wall-p-1.txt,1,True,0,1,False
+data/wall-z-1.txt,1,True,0,1,False
+data/smallworld-3-0.txt,4,True,1,3,False
+data/smallworld-3-1.txt,2,True,1,4,False
+data/gnm-10-15-0.txt,1,True,0,1,False
+data/gnm-10-15-1.txt,1,True,1,5,True
+data/gnm-10-20-0.txt,3,True,1,1,False
+data/gnm-10-20-1.txt,3,True,2,5,True
+data/increase-n10-1.txt,1,True,1,2,True
+data/increase-n10-2.txt,1,True,2,3,True
+data/increase-n10-3.txt,-1,False,-1,-1,False
+data/ski-level3-2.txt,5,True,0,1,False
+data/wall-p-2.txt,1,True,0,1,False
+data/ski-level3-3.txt,5,True,0,1,False
+data/wall-z-2.txt,1,False,0,0,False
+data/ski-level3-1.txt,5,True,1,3,True
+data/wall-n-2.txt,1,False,0,0,False
+data/rusty-1-17.txt,10,True,0,1,False
+data/common-1-20.txt,-1,False,-1,-1,False
+data/common-2-20.txt,-1,False,-1,-1,False
+data/dodecahedron.txt,1,True,2,20,False
+data/increase-n20-1.txt,-1,False,-1,-1,False
+data/increase-n20-2.txt,1,True,1,5,True
+data/increase-n20-3.txt,-1,False,-1,-1,False
+data/wall-p-3.txt,1,True,0,1,False
+data/wall-z-3.txt,1,False,0,0,False
+data/wall-n-3.txt,1,False,0,0,False
+data/grid-5-0.txt,14,True,0,8,True
+data/grid-5-1.txt,8,True,0,6,True
+data/grid-5-2.txt,-1,True,1,10,True
+data/ski-level5-2.txt,-1,True,1,2,False
+data/wall-p-4.txt,1,True,0,1,False
+data/ski-level5-3.txt,7,False,0,0,False
+data/ski-level5-1.txt,-1,True,1,3,False
+data/wall-z-4.txt,1,False,0,0,False
+data/wall-n-4.txt,1,False,0,0,False
+data/ski-illustration.txt,8,True,0,1,False
+data/common-1-50.txt,-1,False,-1,-1,False
+data/common-2-50.txt,-1,False,-1,-1,False
+data/increase-n50-1.txt,-1,False,-1,-1,False
+data/increase-n50-2.txt,1,True,1,5,True
+data/increase-n50-3.txt,1,True,1,4,True
