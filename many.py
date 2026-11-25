@@ -37,7 +37,7 @@ for i in range(n): # check and read the vertices and their colors
 #if there are no vertices, then we cannot find a path from s to t
 
 if n == 0 : 
-    print("?")
+    print("-1")
     exit()
 
 for i in range(m): # check and read the edges
@@ -46,7 +46,7 @@ for i in range(m): # check and read the edges
     # check if a graph is directed or not by checking if the edge is in the form of u--v or u->v
     if "--" in edge:
 #        print("graph is undirected, giving up")
-        print("?")
+        print("?!")
         exit()
     if "->" in edge:
         u, v = edge.split("->")
@@ -75,7 +75,7 @@ print(f"R: {R}")
 
 # First we need to check if the graph is direct and acyclic
 if nx.is_directed_acyclic_graph(G) == False:
-    print("?")
+    print("?!")
     exit()
 
 else:
@@ -83,7 +83,7 @@ else:
 #    print(f"Finding path from {s} to {t} using Bellman-Ford algorithm")
     try:
         final_list = nx.bellman_ford_path(G, source=s, target=t)
-    except:
+    except nx.NetworkXNoPath:
         print("-1")
         exit()
 #    print(f"Path from {s} to {t} is: {final_list}")
