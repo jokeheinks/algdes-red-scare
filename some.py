@@ -1,40 +1,95 @@
-"""Some: is there an s,t-path through at least one red vertex?
-
-- Undirected graphs (exact, linear time): every simple s,t-path passes
-  through exactly the 2-connected blocks on the s,t-path of the block-cut
-  tree. Inside a 2-connected block, for any entry x, exit y != x and any
-  third vertex z there is an x,y-path through z (Menger). So the answer is
-  True iff some red vertex lies in one of those blocks.
-- Directed acyclic graphs (exact): every walk is a path, so the answer is
-  True iff some red r has s ->* r ->* t.
-- Directed graphs with cycles: NP-hard in general. We answer whatever can be
-  decided by reachability and print '?' otherwise.
-"""
-import networkx as nx
-
-from utils.graph import block_path, read_graph
+from collections import defaultdict
 
 
-def some(G, R, s, t, directed):
-    if s == t:
-        return s in R
-    if not nx.has_path(G, s, t):
-        return False
-    if s in R or t in R:
-        return True
+class Max_Flow:
+    def __init__(self, START, TARGET, G) -> None:
+        self.start = START
+        self.target = TARGET
+        self.G = G
 
-    if not directed:
-        U = G.to_undirected()
-        return any(nodes & R for nodes, _, _, _ in block_path(U, s, t))
+    def augmenting_path(self) -> tuple | int:
+        frontier = {self.start}
+        path = dict()
+        success = False
 
-    via = nx.descendants(G, s) & nx.ancestors(G, t) & R
-    if not via:
-        return False
-    if nx.is_directed_acyclic_graph(G):
-        return True
-    return "?"
+        while frontier:
+            node = frontier.pop()
+            for out in self.G[node]:
+                if out not in path and self.G[node][out] > 0:
+                    frontier.add(out)
+                    path[out] = (node, self.G[node][out])
+                    if out == self.target:
+                        success = True
+                        break
+
+        if not success:
+            return -1
+        else:
+            n = self.target
+            flow = float("inf")
+            res = []
+            while n != self.start:
+                res.append(n)
+                flow = min([flow, path[n][1]])
+                n = path[n][0]
+            res.append(self.start)
+            return flow, res[::-1]
+
+    def max_flow(self) -> int:
+        max_flow = 0
+        while True:
+            augment = self.augmenting_path()
+            if augment == -1:
+                return max_flow
+
+            flow, path = augment
+            max_flow += flow
+            for i in range(len(path) - 1):
+                u, v = path[i], path[i + 1]
+                self.G[u][v] -= flow
+                self.G[v][u] += flow
 
 
-if __name__ == "__main__":
-    G, R, s, t, directed = read_graph()
-    print(some(G, R, s, t, directed))
+n, m, r = [int(x) for x in input().split()]
+s, t = input().split()
+vertices = []
+R = set()
+
+G = defaultdict(lambda: defaultdict(float))
+START = "$START"
+TARGET = "$TARGET"
+
+G[s + ".out"][TARGET] = 1
+G[t + ".out"][TARGET] = 1
+
+for _ in range(n):
+    v = input().split()
+    vertices.append(v[0])
+    G[v[0] + ".in"][v[0] + ".out"] = 1
+    if v[-1] == "*":
+        R.add(v[0])
+
+# G = {n: set() for n in vertices}
+directed = False
+for _ in range(m):
+    u, direction, v = input().split()
+    if direction == "--":
+        G[u + ".out"][v + ".in"] = float("inf")
+        G[v + ".out"][u + ".in"] = float("inf")
+    else:
+        directed = True
+        print("?!")
+        exit()
+
+solved = False
+for v in R:
+    G_c = defaultdict(lambda: defaultdict(float))
+    for d in G:
+        G_c[d] = G[d].copy()
+    G_c[START][v + ".out"] = 2
+    flow = Max_Flow(START, TARGET, G_c)
+    if flow.max_flow() == 2:
+        solved = True
+        break
+
+print(solved)
