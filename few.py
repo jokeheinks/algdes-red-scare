@@ -1,40 +1,45 @@
-"""Few: minimum number of red vertices on any s,t-path.
-
-Every red vertex costs 1, so this is a shortest-path problem with vertex
-weights 0/1, solved by 0-1 BFS in O(n + m). A cheapest walk can always be
-shortcut to a simple path without picking up more red vertices, so the
-answer is exact on every graph.
-"""
 from collections import deque
 
-from utils.graph import read_graph
+n, m, r = [int(x) for x in input().split()]
+s, t = input().split()
+vertices = []
+R = set()
+
+for _ in range(n):
+    v = input().split()
+    vertices.append(v[0])
+    if v[-1] == "*":
+        R.add(v[0])
+
+G = {n: set() for n in vertices}
+
+for _ in range(m):
+    u, direction, v = input().split()
+    if direction == "->":
+        G[u].add(v)
+    else:
+        G[u].add(v)
+        G[v].add(u)
 
 
-def few(G, R, s, t) -> int:
-    def w(v):
-        return 1 if v in R else 0
+def few(G, start, target, R) -> int:
+    INF = float("inf")
+    dist = {v: INF for v in G}
+    dist[start] = 1 if start in R else 0
+    dq = deque([start])
 
-    dist = {s: w(s)}
-    queue = deque([s])
-    done = set()
-    while queue:
-        u = queue.popleft()
-        if u in done:
-            continue
-        done.add(u)
-        if u == t:
-            return dist[u]
-        for v in G[u]:
-            d = dist[u] + w(v)
-            if v not in dist or d < dist[v]:
-                dist[v] = d
-                if w(v):
-                    queue.append(v)
+    while dq:
+        curr = dq.popleft()
+        for nxt in G[curr]:
+            w = 1 if nxt in R else 0
+            if dist[curr] + w < dist[nxt]:
+                dist[nxt] = dist[curr] + w
+                if w == 0:
+                    dq.appendleft(nxt)
                 else:
-                    queue.appendleft(v)
-    return -1
+                    dq.append(nxt)
+
+    return -1 if dist[target] == INF else dist[target]
 
 
-if __name__ == "__main__":
-    G, R, s, t, _ = read_graph()
-    print(few(G, R, s, t))
+print(few(G, s, t, R))
