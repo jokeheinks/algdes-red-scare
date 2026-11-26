@@ -15,6 +15,7 @@ s, t = input().split()
 vertices= []
 R = set()
 G = nx.DiGraph()
+isdirected = True
 
 
 
@@ -45,10 +46,14 @@ for i in range(m): # check and read the edges
     edge = input().strip()
     # check if a graph is directed or not by checking if the edge is in the form of u--v or u->v
     if "--" in edge:
+        isdirected = False
+        u, v = [x.strip() for x in edge.split("--")]
+        G.add_edge(u, v)
 #        print("graph is undirected, giving up")
-        print("?!")
-        exit()
+#        print("?!")
+#        exit()
     if "->" in edge:
+        isdirected = True
         u, v = edge.split("->")
 
         #check if the destination vertex is red
@@ -59,9 +64,10 @@ for i in range(m): # check and read the edges
 
 # if there are no edges, then t is unreachable from s, so we return -1
 
+if isdirected == False:
+    G = G.to_undirected()
 
-
-# now let's see if the reading was successful
+# now let's see if the reading was successful. But we actually won't because the code is commented out.
 """
 print(f"n: {n}, m: {m}, r: {r}")
 print(f"s: {s}, t: {t}")
@@ -73,7 +79,52 @@ print(f"R: {R}")
 # now we move onto the algorithm implementation part. W
 # we will be using bellfam's ford alg here.
 
-# First we need to check if the graph is direct and acyclic
+#if s == t, then we return 1 if s is red, else 0
+if s == t:
+    print(1 if s in R else 0)
+    exit()
+
+# check if the path exists at all - if there is none, then we return -1
+if nx.has_path(G, s, t) == False:
+    print("-1")
+    exit()
+# if there are no red vertices in the graph, then we can return 0 as the answer
+if len(R) == 0:
+    print("0")
+    exit()
+
+if isdirected == False:
+    # Case 3: undirected forest (no cycles, so only one simple path exists)
+    if nx.is_forest(G):
+        final_list = nx.shortest_path(G, source=s, target=t)
+        red_count = 0
+        for vertex in final_list:
+            if vertex in R:
+                red_count += 1
+        print(red_count)
+        exit()
+
+    # Case 2: undirected graph with 1 red vertex (check 2 vertex-disjoint paths to s and t)
+    elif len(R) == 1:
+        v_r = next(iter(R))
+        if v_r == s or v_r == t:
+            print("1")
+        else:
+            sink = object()
+            G.add_edge(s, sink)
+            G.add_edge(t, sink)
+            try:
+                paths = list(nx.node_disjoint_paths(G, v_r, sink, cutoff=2))
+                print("1" if len(paths) == 2 else "0")
+            except nx.NetworkXNoPath:
+                print("0")
+        exit()
+
+    else:
+        print("?!")
+        exit()
+
+# we need to check if the graph is direct and acyclic
 if nx.is_directed_acyclic_graph(G) == False:
     print("?!")
     exit()

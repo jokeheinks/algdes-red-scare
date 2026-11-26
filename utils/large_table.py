@@ -1,6 +1,6 @@
 import pandas as pd
 import subprocess
-from glob import glob
+from pathlib import Path
 from tqdm import tqdm
 
 
@@ -11,7 +11,7 @@ class color:
     END = "\033[0m"
 
 
-files = glob("data/*.txt")
+files = Path("data").glob("*.txt")
 
 
 scripts = {
@@ -24,10 +24,9 @@ scripts = {
 out = []
 
 for path in tqdm(files):
-    with open(path, "r") as f:
-        stdin = f.read()
+    stdin = path.read_text()
 
-    instance_name = path[path.index("/") + 1 : path.index(".")]
+    instance_name = path.stem
     n = int(stdin.split()[0])
 
     if n < 500:
